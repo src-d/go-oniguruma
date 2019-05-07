@@ -8,16 +8,13 @@ env:
   global:
     - LD_LIBRARY_PATH="/usr/local/lib":${LD_LIBRARY_PATH}
     - GO111MODULE=on
-addons:
-  apt:
-    packages:
-      - libonig-dev
+    - ONIGURUMA_VERSION='6.9.1'
 
-before_install:
-  - sudo apt-get install -y dpkg  # dpkg >= 1.17.5ubuntu5.8, which fixes https://bugs.launchpad.net/ubuntu/+source/dpkg/+bug/1730627- sudo dpkg -i libonig-dev_6.9.1-1_amd64.deb
-  - wget http://archive.ubuntu.com/ubuntu/pool/universe/libo/libonig/libonig5_6.9.1-1_amd64.deb
-  - sudo dpkg -i libonig5_6.9.1-1_amd64.deb
-  - wget http://archive.ubuntu.com/ubuntu/pool/universe/libo/libonig/libonig-dev_6.9.1-1_amd64.deb
-  - sudo dpkg -i libonig-dev_6.9.1-1_amd64.deb
+before_install: # install oniguruma manualy as trusty has only ancent 5.x
+  - sudo apt-get install -y dpkg # dpkg >= 1.17.5ubuntu5.8 fixes https://bugs.launchpad.net/ubuntu/+source/dpkg/+bug/1730627
+  - wget "http://archive.ubuntu.com/ubuntu/pool/universe/libo/libonig/libonig5_${ONIGURUMA_VERSION}-1_amd64.deb"
+  - sudo dpkg -i "libonig5_${ONIGURUMA_VERSION}-1_amd64.deb"
+  - wget "http://archive.ubuntu.com/ubuntu/pool/universe/libo/libonig/libonig-dev_{$ONIGURUMA_VERSION}}-1_amd64.deb"
+  - sudo dpkg -i "libonig-dev_${ONIGURUMA_VERSION}-1_amd64.deb"
 script:
   - go test -v --cover -race
