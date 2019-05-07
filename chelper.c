@@ -17,7 +17,8 @@ int NewOnigRegex( char *pattern, int pattern_length, int option,
     *error_info = (OnigErrorInfo *) malloc(sizeof(OnigErrorInfo));
     memset(*error_info, 0, sizeof(OnigErrorInfo));
 
-    *encoding = (void*)ONIG_ENCODING_UTF8;
+    OnigEncoding use_encs[] = { *encoding };
+    onig_initialize(use_encs, sizeof(use_encs)/sizeof(use_encs[0]));
 
     *error_buffer = (char*) malloc(ONIG_MAX_ERROR_MESSAGE_LEN * sizeof(char));
 
