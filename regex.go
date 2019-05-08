@@ -47,7 +47,7 @@ type Regexp struct {
 	namedGroupInfo NamedGroupInfo
 }
 
-// NewRegexp creates and initialize new Regexp with a given pattenr and option.
+// NewRegexp creates and initializes a new Regexp with the given pattern and option.
 func NewRegexp(pattern string, option int) (re *Regexp, err error) {
 	return initRegexp(&Regexp{pattern: pattern, encoding: C.ONIG_ENCODING_UTF8}, option)
 }
